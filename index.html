@@ -162,66 +162,12 @@
             text-align: right;
         }
 
-        /* Phone Carousel */
-        .phone-carousel {
-            position: relative;
-            width: 280px;
-            margin-left: auto;
-        }
-
-        .carousel-container {
-            position: relative;
-            overflow: hidden;
-            border-radius: 40px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            background: #000;
-        }
-
-        .carousel-slides {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-        }
-
-        .carousel-slide {
-            min-width: 100%;
-            flex-shrink: 0;
-        }
-
-        .carousel-slide img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .carousel-dots {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 1rem;
-        }
-
-        .carousel-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--secondary-text);
-            opacity: 0.4;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .carousel-dot.active {
-            opacity: 1;
-            background: var(--main-color);
-            transform: scale(1.2);
-        }
-
         .phone-mockup {
             max-width: 300px;
             width: 100%;
             height: auto;
-            filter: drop-shadow(var(--shadow));
-            border-radius: 32px;
+            border-radius: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
         /* Games Section */
@@ -578,31 +524,7 @@
                 </a>
             </div>
             <div class="hero-phone">
-                <div class="phone-carousel">
-                    <div class="carousel-container">
-                        <div class="carousel-slides" id="carousel-slides">
-                            <div class="carousel-slide">
-                                <img src="images/screen-1.png" alt="ConvoQuest App Screenshot 1">
-                            </div>
-                            <div class="carousel-slide">
-                                <img src="images/screen-2.png" alt="ConvoQuest App Screenshot 2">
-                            </div>
-                            <div class="carousel-slide">
-                                <img src="images/screen-3.png" alt="ConvoQuest App Screenshot 3">
-                            </div>
-                            <div class="carousel-slide">
-                                <img src="images/screen-4.png" alt="ConvoQuest App Screenshot 4">
-                            </div>
-                            <div class="carousel-slide">
-                                <img src="images/screen-5.png" alt="ConvoQuest App Screenshot 5">
-                            </div>
-                            <div class="carousel-slide">
-                                <img src="images/screen-6.png" alt="ConvoQuest App Screenshot 6">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-dots" id="carousel-dots"></div>
-                </div>
+                <img src="images/screen-1.png" alt="ConvoQuest App" class="phone-mockup">
             </div>
         </div>
     </section>
@@ -760,54 +682,6 @@
                 navbar.style.background = 'rgba(18, 18, 18, 0.95)';
             }
         });
-
-        // Phone Screenshot Carousel
-        const carouselSlides = document.getElementById('carousel-slides');
-        const carouselDotsContainer = document.getElementById('carousel-dots');
-        const slides = carouselSlides.querySelectorAll('.carousel-slide');
-        let currentSlide = 0;
-        let autoPlayInterval;
-
-        // Create dots
-        slides.forEach((_, index) => {
-            const dot = document.createElement('div');
-            dot.classList.add('carousel-dot');
-            if (index === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => goToSlide(index));
-            carouselDotsContainer.appendChild(dot);
-        });
-
-        const dots = carouselDotsContainer.querySelectorAll('.carousel-dot');
-
-        function goToSlide(index) {
-            currentSlide = index;
-            carouselSlides.style.transform = `translateX(-${currentSlide * 100}%)`;
-            dots.forEach((dot, i) => {
-                dot.classList.toggle('active', i === currentSlide);
-            });
-        }
-
-        function nextSlide() {
-            currentSlide = (currentSlide + 1) % slides.length;
-            goToSlide(currentSlide);
-        }
-
-        // Auto-play carousel every 3 seconds
-        function startAutoPlay() {
-            autoPlayInterval = setInterval(nextSlide, 3000);
-        }
-
-        function stopAutoPlay() {
-            clearInterval(autoPlayInterval);
-        }
-
-        // Start auto-play
-        startAutoPlay();
-
-        // Pause on hover
-        const carousel = document.querySelector('.phone-carousel');
-        carousel.addEventListener('mouseenter', stopAutoPlay);
-        carousel.addEventListener('mouseleave', startAutoPlay);
     </script>
     <script src="app-config.js"></script>
 </body>
