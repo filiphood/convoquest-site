@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">ConvoQuest - Deep Conversations, Fun Games</title>
+    <meta name="description" content="A conversation game app featuring deep discussion cards, Would You Rather, Rapid Fire, and more. Connect meaningfully with friends and loved ones.">
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* CSS Variables for easy customization */
+        :root {
+            /* Dark mode defaults */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(18, 18, 18, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 25px;
+            height: 25px;
+            border-radius: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--link-color);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--link-highlight);
+        }
+
+        .download-btn {
+            background: var(--button-color);
+            color: white !important;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background: var(--button-highlight);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 2rem 4rem;
+            background: var(--bg-main);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            color: var(--main-text);
+        }
+
+        .hero-content .subtitle {
+            font-size: 1.25rem;
+            color: var(--secondary-text);
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+
+        .download-ios-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--button-color);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        .download-ios-btn:hover {
+            background: var(--button-highlight);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .download-ios-btn i {
+            font-size: 1.3rem;
+        }
+
+        .hero-phone {
+            text-align: right;
+        }
+
+        /* Phone Carousel */
+        .phone-carousel {
+            position: relative;
+            width: 280px;
+            margin-left: auto;
+        }
+
+        .carousel-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            background: #000;
+            aspect-ratio: 1290 / 2796;
+        }
+
+        .carousel-slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            height: 100%;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            flex-shrink: 0;
+            height: 100%;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 1rem;
+        }
+
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--secondary-text);
+            opacity: 0.4;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-dot.active {
+            opacity: 1;
+            background: var(--main-color);
+            transform: scale(1.2);
+        }
+
+        .phone-mockup {
+            max-width: 300px;
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(var(--shadow));
+            border-radius: 32px;
+        }
+
+        /* Games Section */
+        .games {
+            padding: 6rem 2rem;
+            background: var(--bg-main);
+        }
+
+        .games-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .games-header {
+            text-align: left;
+            margin-bottom: 4rem;
+        }
+
+        .games-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--main-text);
+        }
+
+        .games-subtitle {
+            font-size: 1.25rem;
+            color: var(--secondary-text);
+            line-height: 1.5;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .game-card {
+            background: var(--bg-secondary);
+            border-radius: 24px;
+            padding: 2rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .game-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .game-content h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--main-text);
+            margin-bottom: 0.5rem;
+        }
+
+        .game-content p {
+            color: var(--secondary-text);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 2rem;
+            background: var(--bg-main);
+        }
+
+        .features-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .features-header {
+            text-align: left;
+            margin-bottom: 4rem;
+        }
+
+        .features-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--main-text);
+        }
+
+        .features-subtitle {
+            font-size: 1.25rem;
+            color: var(--secondary-text);
+            line-height: 1.5;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            background: var(--bg-secondary);
+            border-radius: 24px;
+            padding: 2.5rem 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon-wrapper {
+            width: 80px;
+            height: 80px;
+            background: var(--bg-main);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            color: var(--main-color);
+        }
+
+        .feature-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--main-text);
+            margin: 0 0 0.75rem 0;
+        }
+
+        .feature-card p {
+            color: var(--secondary-text);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* About Section */
+        .about {
+            padding: 6rem 2rem;
+            background: var(--bg-main);
+        }
+
+        .about-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .about-card {
+            background: var(--bg-secondary);
+            border-radius: 24px;
+            padding: 3rem;
+        }
+
+        .about-content h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--main-text);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .about-content p {
+            font-size: 1.125rem;
+            color: var(--secondary-text);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-signature {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .signature-info h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--main-text);
+            margin-bottom: 0.25rem;
+        }
+
+        .signature-info p {
+            font-size: 0.9rem;
+            color: var(--secondary-text);
+            margin: 0;
+        }
+
+        .signature-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .about-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--bg-light);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bg-secondary);
+            color: var(--main-text);
+            padding: 3rem 2rem 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: var(--link-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--link-highlight);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: var(--button-color);
+            color: white;
+            border-radius: 50%;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--button-highlight);
+            transform: translateY(-2px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            color: var(--secondary-text);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .hero-phone {
+                text-align: center;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-card {
+                padding: 2rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .footer-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo" id="nav-logo">
+                <img src="images/convoquest-icon.png" alt="ConvoQuest" class="logo-icon" id="nav-logo-icon">
+                ConvoQuest
+            </a>
+            <ul class="nav-links">
+                <li><a href="mailto:filiphood.creative@gmail.com">Contact</a></li>
+                <li><a href="privacy.html">Privacy Policy</a></li>
+                <li><a href="terms.html">Terms of Use</a></li>
+                <li><a href="#download" class="download-btn">Download</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 id="hero-title">Turn conversations into adventures</h1>
+                <p class="subtitle" id="hero-subtitle">Deep conversations, fun challenges, and meaningful connections. ConvoQuest brings people closer through engaging card games and interactive experiences.</p>
+                <a href="#download" class="download-ios-btn" id="download-ios-btn">
+                    <i class="fab fa-apple"></i>
+                    Download for iOS
+                </a>
+            </div>
+            <div class="hero-phone">
+                <div class="phone-carousel">
+                    <div class="carousel-container">
+                        <div class="carousel-slides" id="carousel-slides">
+                            <div class="carousel-slide">
+                                <img src="images/screen-1.png" alt="ConvoQuest App Screenshot 1">
+                            </div>
+                            <div class="carousel-slide">
+                                <img src="images/screen-2.png" alt="ConvoQuest App Screenshot 2">
+                            </div>
+                            <div class="carousel-slide">
+                                <img src="images/screen-3.png" alt="ConvoQuest App Screenshot 3">
+                            </div>
+                            <div class="carousel-slide">
+                                <img src="images/screen-4.png" alt="ConvoQuest App Screenshot 4">
+                            </div>
+                            <div class="carousel-slide">
+                                <img src="images/screen-5.png" alt="ConvoQuest App Screenshot 5">
+                            </div>
+                            <div class="carousel-slide">
+                                <img src="images/screen-6.png" alt="ConvoQuest App Screenshot 6">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-dots" id="carousel-dots"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Games Section -->
+    <section class="games">
+        <div class="games-container">
+            <div class="games-header">
+                <h2 class="games-title" id="games-title">Games for every moment</h2>
+                <p class="games-subtitle" id="games-subtitle">From deep talks to rapid-fire fun, there's something for everyone</p>
+            </div>
+            <div class="games-grid" id="games-grid">
+                <div class="game-card">
+                    <img src="images/bubble.png" alt="Deep Conversations" class="game-icon">
+                    <div class="game-content">
+                        <h3>Deep Conversations</h3>
+                        <p>Thought-provoking questions that spark meaningful conversations. Perfect for getting to know someone on a deeper level.</p>
+                    </div>
+                </div>
+                <div class="game-card">
+                    <img src="images/map.png" alt="Discovery Quest" class="game-icon">
+                    <div class="game-content">
+                        <h3>Discovery Quest</h3>
+                        <p>Embark on a journey of discovery. Explore topics and questions that reveal new sides of each other.</p>
+                    </div>
+                </div>
+                <div class="game-card">
+                    <img src="images/choice.png" alt="Would You Rather" class="game-icon">
+                    <div class="game-content">
+                        <h3>Would You Rather</h3>
+                        <p>Classic dilemmas with a twist. Make impossible choices and discover what really matters to you and your friends.</p>
+                    </div>
+                </div>
+                <div class="game-card">
+                    <img src="images/stopwatch.png" alt="Rapid Fire" class="game-icon">
+                    <div class="game-content">
+                        <h3>Rapid Fire</h3>
+                        <p>Race against the clock! Discover your partner's favorites in a fast-paced challenge. Who knows each other best?</p>
+                    </div>
+                </div>
+                <div class="game-card">
+                    <img src="images/flags.png" alt="Red Flag / Green Flag" class="game-icon">
+                    <div class="game-content">
+                        <h3>Red Flag / Green Flag</h3>
+                        <p>Reveal your deal-breakers and must-haves. Learn what makes relationships work for you and others.</p>
+                    </div>
+                </div>
+            </div>
+            <p style="text-align: center; color: var(--secondary-text); font-style: italic;">More games coming soon...</p>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="features-container">
+            <div class="features-header">
+                <h2 class="features-title" id="features-title">How it works</h2>
+                <p class="features-subtitle" id="features-subtitle">Simple, fun, and meaningful</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">
+                        <i class="fas fa-gamepad feature-icon"></i>
+                    </div>
+                    <h3 id="feature-1-title">Choose a Game</h3>
+                    <p id="feature-1-desc">Pick from Deep Conversations, Would You Rather, Rapid Fire, or more fun games</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">
+                        <i class="fas fa-users feature-icon"></i>
+                    </div>
+                    <h3 id="feature-2-title">Play Together</h3>
+                    <p id="feature-2-desc">Gather with friends, family, or a date and dive into meaningful conversations</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">
+                        <i class="fas fa-heart feature-icon"></i>
+                    </div>
+                    <h3 id="feature-3-title">Connect Deeper</h3>
+                    <p id="feature-3-desc">Discover new things about each other and create memorable moments together</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about">
+        <div class="about-container">
+            <div class="about-card">
+                <div class="about-content">
+                    <h2 id="about-title">
+                        Hi, I'm Filip
+                    </h2>
+                    <p id="about-text-1">I created ConvoQuest because I noticed something in my own life: the best moments with friends and loved ones always started with a great conversation. But sometimes, getting past the small talk is the hardest part.</p>
+                    <p id="about-text-2">I wanted to build something that makes it <strong>easy and fun</strong> to connect on a deeper level whether you're on a first date, hanging out with old friends, or just looking for something more meaningful than "how was your day?"</p>
+                    <p id="about-text-3">ConvoQuest is designed to spark those conversations that matter and create moments you'll actually remember. Hope you enjoy it as much as I enjoyed making it!</p>
+
+                    <div class="about-signature">
+                        <img src="images/filip.jpeg" alt="Filip" class="signature-avatar" id="signature-avatar">
+                        <div class="signature-info">
+                            <h3 id="signature-name">Filip</h3>
+                            <p id="signature-title">ConvoQuest creator</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <a href="#" class="logo" id="footer-logo">
+                    <img src="images/convoquest-icon.png" alt="ConvoQuest" class="logo-icon" id="footer-logo-icon">
+                    ConvoQuest
+                </a>
+                <ul class="footer-links">
+                    <li><a href="mailto:filiphood.creative@gmail.com">Contact</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Use</a></li>
+                </ul>
+                <div class="social-links">
+                    <a href="https://twitter.com/filip_hood" id="twitter-link"><i class="fab fa-twitter"></i></a>
+                    <a href="mailto:filiphood.creative@gmail.com" id="email-link"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p id="footer-copyright">&copy; 2025 ConvoQuest. Made with love by Filip.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Navbar background on scroll
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(18, 18, 18, 0.98)';
+            } else {
+                navbar.style.background = 'rgba(18, 18, 18, 0.95)';
+            }
+        });
+
+        // Phone Screenshot Carousel
+        const carouselSlides = document.getElementById('carousel-slides');
+        const carouselDotsContainer = document.getElementById('carousel-dots');
+        const slides = carouselSlides.querySelectorAll('.carousel-slide');
+        let currentSlide = 0;
+        let autoPlayInterval;
+
+        // Create dots
+        slides.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.classList.add('carousel-dot');
+            if (index === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(index));
+            carouselDotsContainer.appendChild(dot);
+        });
+
+        const dots = carouselDotsContainer.querySelectorAll('.carousel-dot');
+
+        function goToSlide(index) {
+            currentSlide = index;
+            carouselSlides.style.transform = `translateX(-${currentSlide * 100}%)`;
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentSlide);
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            goToSlide(currentSlide);
+        }
+
+        // Auto-play carousel every 3 seconds
+        function startAutoPlay() {
+            autoPlayInterval = setInterval(nextSlide, 3000);
+        }
+
+        function stopAutoPlay() {
+            clearInterval(autoPlayInterval);
+        }
+
+        // Start auto-play
+        startAutoPlay();
+
+        // Pause on hover
+        const carousel = document.querySelector('.phone-carousel');
+        carousel.addEventListener('mouseenter', stopAutoPlay);
+        carousel.addEventListener('mouseleave', startAutoPlay);
+    </script>
+    <script src="app-config.js"></script>
+</body>
+</html>
